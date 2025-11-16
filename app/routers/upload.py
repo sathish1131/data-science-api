@@ -1,6 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 import pandas as pd
 from io import BytesIO
+from app.routers.api_response import api_response
 
 router = APIRouter()
 
@@ -18,12 +19,11 @@ async def upload_file(file: UploadFile = File(...)):
 			df = pd.read_excel(BytesIO(content))
 
 		json_df = df.to_dict(orient="records")
-
-		return {
-			"status": "success",
-			"rows": len(json_df),
-			"columns": list(df.columns),
-			"data": json_df
+		data = {
+			"filename": filename,
+			"row_count": len(json_df),
+			"columns": list(df.columns)
 		}
+		return api_response("", data)
 	except Exception as e:
 		raise HTTPException(status_code=500, detail=str(e))
