@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers.upload import router as upload_router
+from app.routers.file_upload import router as file_upload_router
 from app.routers.data_clean import router as data_clean_router
 
 
@@ -14,5 +14,5 @@ app.add_middleware(
 	allow_headers=["*"]
 )
 
-app.include_router(upload_router)
+app.include_router(file_upload_router)
 app.include_router(data_clean_router)
